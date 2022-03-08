@@ -17,18 +17,23 @@ import { showPluginInExplorer } from './commands/showPluginInExplorer';
 import { generateProjectFilesAndCompileCommands } from './commands/routines/generateProjectFilesAndCompileCommands';
 
 // command list
-const commands = [
-    checkUnrealProject,
-    askProjectFilesGeneration,
-    selectUnrealEngineInstallation,
-    generateProjectFiles,
-    generateCompileCommands,
-    openProjectEditor,
-    buildProject,
-    buildAndGenerateCompileCommands,
-    buildModule,
-    showPluginInExplorer,
-    generateProjectFilesAndCompileCommands,
+interface Command {
+    command: string;
+    callback: (...args: any[]) => any;
+}
+
+const commands: Command[] = [
+    {command: 'checkUnrealProject', callback: checkUnrealProject},
+    {command: 'askProjectFilesGeneration', callback: askProjectFilesGeneration},
+    {command: 'selectUnrealEngineInstallation', callback: selectUnrealEngineInstallation},
+    {command: 'generateProjectFiles', callback: generateProjectFiles},
+    {command: 'generateCompileCommands', callback: generateCompileCommands},
+    {command: 'openProjectEditor', callback: openProjectEditor},
+    {command: 'buildProject', callback: buildProject},
+    {command: 'buildAndGenerateCompileCommands', callback: buildAndGenerateCompileCommands},
+    {command: 'buildModule', callback: buildModule},
+    {command: 'showPluginInExplorer', callback: showPluginInExplorer},
+    {command: 'generateProjectFilesAndCompileCommands', callback: generateProjectFilesAndCompileCommands},
 ];
 
 const tasks: vscode.Task[] = [];
@@ -51,8 +56,8 @@ export function activate(context: vscode.ExtensionContext) {
     new ModulesViewController(context);
 
     // Register commands
-    commands.forEach(command => {
-        context.subscriptions.push(vscode.commands.registerCommand(`uetools.${command.name}`, command));
+    commands.forEach(c => {
+        context.subscriptions.push(vscode.commands.registerCommand(`uetools.${c.command}`, c.callback));
     });
 
     // Register status bar items
