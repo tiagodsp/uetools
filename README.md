@@ -26,7 +26,7 @@ Automatically invokes UnrealBuildTool in GenerateClangDatabase mode to generate 
 ## Requirements
 
 * `clangd` - For code improved completion experience.
-* `MacOS` - Currently I am developed the extension in a Mac OS only, but as soon I get a Windows and Linux machine I will port it to Windows and Linux developing environment.
+* `MacOS` - Currently I developed the extension in a Mac OS only, but as soon I get a Windows and Linux machine I will port it to Windows and Linux developing environment.
 
 ## Extension Settings
 This extension contributes the following settings:
