@@ -1,0 +1,110 @@
+{
+	"name": "uetools",
+	"displayName": "Unreal Engine Tools",
+	"description": "Unreal Engine toolset to help developing projects using Visual Studio Code.",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.64.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onStartupFinished"
+	],
+	"main": "./dist/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "uetools.checkUnrealProject",
+				"title": "UETools: Check for Unreal Project in this workspace"
+			},
+			{
+				"command": "uetools.askProjectFilesGeneration",
+				"title": "UETools: Ask Unreal Project files generation"
+			}
+		],
+		"configuration": [
+			{
+				"title": "Uneral Engine Tools",
+				"properties": {
+					"uetools.unrealEngineInstallationSearchPath": {
+						"type": "string",
+						"description": "Path to search for Unreal Engine installations",
+						"default": ""
+					}
+				}
+			}
+		],
+		"taskDefinitions": [
+			{
+				"type": "uetools"
+			}
+		],
+		"views": {
+			"uetools": [
+				{
+					"type": "webview",
+					"id": "uetools.project",
+					"name": "Project"
+				},
+				{
+					"type": "webview",
+					"id": "uetools.modules",
+					"name": "Modules"
+				}
+			]
+		},
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "uetools",
+					"title": "Unreal Engine Tools",
+					"icon": "res/icons/ueicon-light.png"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "yarn run package",
+		"compile": "webpack",
+		"watch": "webpack --watch",
+		"package": "webpack --mode production --devtool hidden-source-map",
+		"compile-tests": "tsc -p . --outDir out",
+		"watch-tests": "tsc -p . -w --outDir out",
+		"pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
+		"lint": "eslint src --ext ts",
+		"test": "node ./out/test/runTest.js"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.17.5",
+		"@babel/preset-react": "^7.16.7",
+		"@babel/preset-typescript": "^7.16.7",
+		"@types/glob": "^7.2.0",
+		"@types/mocha": "^9.1.0",
+		"@types/node": "14.x",
+		"@types/react": "^17.0.39",
+		"@types/react-dom": "^17.0.12",
+		"@types/styled-components": "^5.1.24",
+		"@types/vscode": "^1.64.0",
+		"@typescript-eslint/eslint-plugin": "^5.12.1",
+		"@typescript-eslint/parser": "^5.12.1",
+		"@vscode/test-electron": "^2.1.2",
+		"babel-loader": "^8.2.3",
+		"eslint": "^8.9.0",
+		"glob": "^7.2.0",
+		"mocha": "^9.2.1",
+		"ts-loader": "^9.2.6",
+		"typescript": "^4.5.5",
+		"webpack": "^5.69.1",
+		"webpack-cli": "^4.9.2"
+	},
+	"dependencies": {
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2",
+		"styled-components": "^5.3.3"
+	},
+	"extensionDependencies": [
+		"llvm-vs-code-extensions.vscode-clangd"
+	]
+}
