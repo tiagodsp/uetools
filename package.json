@@ -3,7 +3,10 @@
 	"displayName": "Unreal Engine Tools",
 	"description": "Unreal Engine toolset to help developing projects using Visual Studio Code.",
 	"publisher": "tiagodsp",
-	"icon": "./res/images/uetoolslogo128.png",
+	"icon": "res/images/uetoolslogo128.png",
+	"repository": {
+		"url": "https://github.com/tiagodsp/uetools"
+	},
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.64.0"
