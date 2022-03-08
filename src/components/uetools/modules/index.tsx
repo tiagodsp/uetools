@@ -25,7 +25,7 @@ const Modules = () => {
                     <GameModuleCard key={module.Name} project={project} module={module} />
                 );
             })}
-            {project?.ProjectPlugins.map((plugin, index) => {
+            {project && project.ProjectPlugins.map((plugin, index) => {
                 return (
                     <PluginModuleCard key={plugin.FriendlyName} project={project} plugin={plugin}/>
                 );
