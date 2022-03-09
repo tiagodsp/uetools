@@ -150,8 +150,9 @@ export const Project = () =>
     );
 };
 
-VSCodeWrapper.postMessage({type: 'onReady', data: 'Hello from the extension!'});
 ReactDOM.render(
 	<Project/>,
 	document.getElementById('root')
 );
+
+VSCodeWrapper.postMessage({type: 'onReady', data: 'Hello from the extension!'});

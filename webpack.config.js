@@ -10,7 +10,7 @@ const path = require('path');
 /** @type WebpackConfig */
 const extensionConfig = {
   target: ['node'], // vscode extensions run in a Node.js-context 📖 -> https://webpack.js.org/configuration/node/
-  mode: 'none', // this leaves the source code as close as possible to the original (when packaging we set this to 'production')
+  mode: 'production', // this leaves the source code as close as possible to the original (when packaging we set this to 'production')
 
   entry: './src/extension.ts', // the entry point of this extension, 📖 -> https://webpack.js.org/configuration/entry-context/
   output: {
@@ -60,7 +60,7 @@ const extensionConfig = {
 /** @type WebpackConfig */
 const uetoolsProjectComponentConfig = {
   target: ['web'],
-  mode: 'development',
+  mode: 'production',
 
   entry: './src/components/uetools/project/index.tsx',
   output: {
@@ -95,7 +95,7 @@ const uetoolsProjectComponentConfig = {
 /** @type WebpackConfig */
 const uetoolsModulesComponentConfig = {
   target: ['web'],
-  mode: 'development',
+  mode: 'production',
 
   entry: './src/components/uetools/modules/index.tsx',
   output: {
