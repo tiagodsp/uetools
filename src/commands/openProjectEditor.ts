@@ -26,7 +26,7 @@ export const openProjectEditor = (): Promise<boolean> => {
             const projectFolder = Context.get("projectFolder") as string;
             vscode.window.showInformationMessage(`Opening project editor for ${project.Modules[0].Name}`);
 
-            const unrealEditorBin = path.join(unrealEngineInstallation, 'Engine/Binaries/Mac/UnrealEditor.app/Contents/MacOS/UnrealEditor');
+            const unrealEditorBin = Context.get("unrealEditorPath") as string;
             const projectFile = path.join(projectFolder, `${project.Modules[0].Name}.uproject`);
 
             // launch unreal editor without debug session in vscode

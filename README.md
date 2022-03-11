@@ -18,14 +18,14 @@ It is possible to build individual modules too, also with hot reload.
 
 ![Build module individually](./res/images/uetools_project02.gif)
 
-### Improved code completion with Clangd extension:
+### Improved code completion with Clangd extension (only Unreal Engine 5):
 Automatically invokes UnrealBuildTool in GenerateClangDatabase mode to generate the `compile_commands.json` file that is required by [Clangd extention](https://clangd.llvm.org), allowing the editor to have a better code completion experience. It is not perfect, but helps to get the job done. 🙌🏻
 
 ![Code completion feature](./res/images/uetools_code00.gif)
 
 ## Requirements
 
-* `clangd` - For code improved completion experience.
+* `clangd` - For code improved completion experience (only Unreal Engine 5).
 * `MacOS` - Currently I developed the extension in a Mac OS only, but as soon I get a Windows and Linux machine I will port it to Windows and Linux developing environment.
 
 ## Extension Settings

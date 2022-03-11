@@ -31,11 +31,13 @@ export const buildModule = (args: { moduleName: string }): Promise<boolean> => {
             }
 
             const projectFolder = Context.get("projectFolder") as string;
+            const unrealBuildToolPath = Context.get("unrealBuildToolPath") as string;
+            const runtimePath = Context.get("runtimePath") as string;
             const randomIntNum = Math.floor(Math.random() * 100000);
 
             // Create task to build project
             const shellCommand = new vscode.ShellExecution(
-                `dotnet ${path.join(unrealEngineInstallation, "Engine/Binaries/DotNET/UnrealBuildTool/UnrealBuildTool.dll").replace(' ', '\\ ')} -mode=Build -ModuleWithSuffix=${args.moduleName},${randomIntNum} -ForceHotReload -project=${path.join(projectFolder, project.Modules[0].Name).replace(' ', '\\ ')}.uproject ${project.Modules[0].Name}Editor Mac Development`,
+                `${runtimePath.replace(' ', '\\ ')} ${unrealBuildToolPath.replace(' ', '\\ ')} -mode=Build -ModuleWithSuffix=${args.moduleName},${randomIntNum} -ForceHotReload -project=${path.join(projectFolder, project.Modules[0].Name).replace(' ', '\\ ')}.uproject ${project.Modules[0].Name}Editor Mac Development`,
                 // `dotnet ${path.join(unrealEngineInstallation, "Engine/Binaries/DotNET/UnrealBuildTool/UnrealBuildTool.dll").replace(' ', '\\ ')} -mode=Build -ForceHotReload -project=${path.join(projectFolder, project.Modules[0].Name).replace(' ', '\\ ')}.uproject ${args.moduleName} ${project.Modules[0].Name}Editor Mac Development`,
                 { cwd: unrealEngineInstallation }
             );

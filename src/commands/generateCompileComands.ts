@@ -19,6 +19,8 @@ export const generateCompileCommands = (): Promise<boolean> => {
 
             // check for unreal engine installation
             const unrealEngineInstallation = Context.get("unrealEngineInstallation") as string;
+            const unrealBuildToolPath = Context.get("unrealBuildToolPath") as string;
+            const runtimePath = Context.get("runtimePath") as string;
             const projectFolder = Context.get("projectFolder") as string;
 
             vscode.window.showInformationMessage(`Generating compile commands for ${project.Modules[0].Name}`);
@@ -31,7 +33,7 @@ export const generateCompileCommands = (): Promise<boolean> => {
 
             // Create task to generate compile_commands.json
             const shellCommand = new vscode.ShellExecution(
-                `dotnet ${path.join(unrealEngineInstallation, "Engine/Binaries/DotNET/UnrealBuildTool/UnrealBuildTool.dll").replace(' ', '\\ ')} -mode=GenerateClangDatabase -project=${path.join(projectFolder, project.Modules[0].Name).replace(' ', '\\ ')}.uproject ${project.Modules[0].Name} Mac Development`,
+                `${runtimePath.replace(' ', '\\ ')} ${unrealBuildToolPath.replace(' ', '\\ ')} -mode=GenerateClangDatabase -project=${path.join(projectFolder, project.Modules[0].Name).replace(' ', '\\ ')}.uproject ${project.Modules[0].Name}Editor Mac Development`,
                 { cwd: unrealEngineInstallation }
             );
 

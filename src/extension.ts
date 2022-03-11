@@ -15,6 +15,7 @@ import { buildAndGenerateCompileCommands } from './commands/routines/build';
 import { buildModule } from './commands/buildModule';
 import { showPluginInExplorer } from './commands/showPluginInExplorer';
 import { generateProjectFilesAndCompileCommands } from './commands/routines/generateProjectFilesAndCompileCommands';
+import { checkProjectAndUnrealInstallation } from './commands/routines/checkProjectAndUnrealInstallation';
 
 // command list
 interface Command {
@@ -34,6 +35,7 @@ const commands: Command[] = [
     {command: 'buildModule', callback: buildModule},
     {command: 'showPluginInExplorer', callback: showPluginInExplorer},
     {command: 'generateProjectFilesAndCompileCommands', callback: generateProjectFilesAndCompileCommands},
+    {command: 'checkProjectAndUnrealInstallation', callback: checkProjectAndUnrealInstallation}
 ];
 
 const tasks: vscode.Task[] = [];
@@ -65,7 +67,7 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(projectName);
 
     // check for project
-    vscode.commands.executeCommand('uetools.checkUnrealProject');
+    vscode.commands.executeCommand('uetools.checkProjectAndUnrealInstallation');
 }
 
 // this method is called when your extension is deactivated

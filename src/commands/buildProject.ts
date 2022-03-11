@@ -14,21 +14,14 @@ export const buildProject = (): Promise<boolean> => {
             }
 
             // check for unreal engine installation
-            let unrealEngineInstallation = Context.get("unrealEngineInstallation") as string;
-            if (!unrealEngineInstallation) {
-                await vscode.commands.executeCommand('uetools.selectUnrealEngineInstallation');
-                unrealEngineInstallation = Context.get("unrealEngineInstallation") as string;
-                if (!unrealEngineInstallation) {
-                    reject(new Error('No unreal engine installation found'));
-                    return;
-                }
-            }
-
+            const unrealEngineInstallation = Context.get("unrealEngineInstallation") as string;
+            const unrealBuildToolPath = Context.get("unrealBuildToolPath") as string;
+            const runtimePath = Context.get("runtimePath") as string;
             const projectFolder = Context.get("projectFolder") as string;
 
             // Create task to build project
             const shellCommand = new vscode.ShellExecution(
-                `dotnet ${path.join(unrealEngineInstallation, "Engine/Binaries/DotNET/UnrealBuildTool/UnrealBuildTool.dll").replace(' ', '\\ ')} -mode=Build -ForceHotReload -project=${path.join(projectFolder, project.Modules[0].Name).replace(' ', '\\ ')}.uproject ${project.Modules[0].Name}Editor Mac Development`,
+                `${runtimePath.replace(' ', '\\ ')} ${unrealBuildToolPath.replace(' ', '\\ ')} -mode=Build -ForceHotReload -project=${path.join(projectFolder, project.Modules[0].Name).replace(' ', '\\ ')}.uproject ${project.Modules[0].Name}Editor Mac Development`,
                 { cwd: unrealEngineInstallation }
             );
 
