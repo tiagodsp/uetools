@@ -110,6 +110,13 @@ export const Project = () =>
         });
     };
 
+    const onChangeEngineVersion = () => {
+        VSCodeWrapper.postMessage({
+            type: 'runCommand',
+            command: 'uetools.changeEngineVersionRoutine',
+        });
+    };
+    
     const onGenerateProjectFiles = () => {
         VSCodeWrapper.postMessage({
             type: 'runCommand',
@@ -138,6 +145,9 @@ export const Project = () =>
             <ButtonsWrapper>
                 <Button onClick={onOpenProject}>
                     Open in Unreal Editor
+                </Button>
+                <Button onClick={onChangeEngineVersion}>
+                    Change Engine Version
                 </Button>
                 <Button onClick={onGenerateProjectFiles}>
                     Generate Project Files

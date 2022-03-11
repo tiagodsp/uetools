@@ -16,6 +16,8 @@ import { buildModule } from './commands/buildModule';
 import { showPluginInExplorer } from './commands/showPluginInExplorer';
 import { generateProjectFilesAndCompileCommands } from './commands/routines/generateProjectFilesAndCompileCommands';
 import { checkProjectAndUnrealInstallation } from './commands/routines/checkProjectAndUnrealInstallation';
+import { changeEngineVersion } from './commands/changeEngineVersion';
+import { changeEngineVersionRoutine } from './commands/routines/changeEngineVersionRoutine';
 
 // command list
 interface Command {
@@ -35,7 +37,9 @@ const commands: Command[] = [
     {command: 'buildModule', callback: buildModule},
     {command: 'showPluginInExplorer', callback: showPluginInExplorer},
     {command: 'generateProjectFilesAndCompileCommands', callback: generateProjectFilesAndCompileCommands},
-    {command: 'checkProjectAndUnrealInstallation', callback: checkProjectAndUnrealInstallation}
+    {command: 'checkProjectAndUnrealInstallation', callback: checkProjectAndUnrealInstallation},
+    {command: 'changeEngineVersion', callback: changeEngineVersion},
+    {command: 'changeEngineVersionRoutine', callback: changeEngineVersionRoutine},
 ];
 
 const tasks: vscode.Task[] = [];

@@ -46,6 +46,7 @@ const checkUnrealProject = (): Promise<boolean> => {
 
                             Context.events.onProjectChanged.emit(project);
                             resolve(true);
+                            return true;
                         }
                     }
                 }
