@@ -22,7 +22,7 @@ export const buildModule = (args: { moduleName: string }): Promise<boolean> => {
             // check for unreal engine installation
             let unrealEngineInstallation = Context.get("unrealEngineInstallation") as string;
             if (!unrealEngineInstallation) {
-                await vscode.commands.executeCommand('uetools.selectUnrealEngineInstallation');
+                await vscode.commands.executeCommand('uetools.detectUnrealEngineInstallation');
                 unrealEngineInstallation = Context.get("unrealEngineInstallation") as string;
                 if (!unrealEngineInstallation) {
                     reject(new Error('No unreal engine installation found'));

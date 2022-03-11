@@ -15,7 +15,7 @@ export const generateProjectFiles = (): Promise<boolean> => {
                 return;
             }
 
-            await vscode.commands.executeCommand('uetools.selectUnrealEngineInstallation');
+            await vscode.commands.executeCommand('uetools.detectUnrealEngineInstallation');
 
             // check for unreal engine installation
             const unrealEngineInstallation = Context.get("unrealEngineInstallation") as string;

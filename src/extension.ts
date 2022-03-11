@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 
 import checkUnrealProject from './commands/checkUnrealProject';
 import { askProjectFilesGeneration, generateProjectFiles } from './commands/generateProjectFiles';
-import { selectUnrealEngineInstallation } from './commands/selectUnrealEngineInstallation';
+import { detectUnrealEngineInstallation } from './commands/detectUnrealEngineInstallation';
 import { generateCompileCommands } from './commands/generateCompileComands';
 import { Context } from './helpers/context';
 import { ActiveProjectStatusBarItem } from './StatusBarItems/ActiveProject';
@@ -26,7 +26,7 @@ interface Command {
 const commands: Command[] = [
     {command: 'checkUnrealProject', callback: checkUnrealProject},
     {command: 'askProjectFilesGeneration', callback: askProjectFilesGeneration},
-    {command: 'selectUnrealEngineInstallation', callback: selectUnrealEngineInstallation},
+    {command: 'detectUnrealEngineInstallation', callback: detectUnrealEngineInstallation},
     {command: 'generateProjectFiles', callback: generateProjectFiles},
     {command: 'generateCompileCommands', callback: generateCompileCommands},
     {command: 'openProjectEditor', callback: openProjectEditor},

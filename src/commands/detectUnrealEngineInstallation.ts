@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { Context } from '../helpers/context';
 
-export const selectUnrealEngineInstallation = (): Promise<boolean> => {
+export const detectUnrealEngineInstallation = (): Promise<boolean> => {
     return new Promise<boolean>((resolve, reject) => {
         (async () => {
 
@@ -13,17 +13,41 @@ export const selectUnrealEngineInstallation = (): Promise<boolean> => {
 
             if (!project) {
                 reject(new Error('No project found'));
-                return;
+                return false;
             }
 
+            // check operating system
+            const os = process.platform;
+
             // get unreal engine installation seach path and check if the version associated with project is installed
-            const unrealEngineInstallationSearchPath = vscode.workspace.getConfiguration().get('uetools.unrealEngineInstallationSearchPath') as string;
+            let unrealEngineInstallationSearchPath = vscode.workspace.getConfiguration().get('uetools.unrealEngineInstallationSearchPath') as string;
+            if(!unrealEngineInstallationSearchPath) {
+                // try default installation path by operating system
+                const os = process.platform;
+                if (os === 'win32') {
+                    unrealEngineInstallationSearchPath = 'C:\\Program Files\\Epic Games';
+                } else if (os === 'darwin') {
+                    unrealEngineInstallationSearchPath = '/Users/Shared/Epic Games';
+                } else if(os === 'linux') {
+                    unrealEngineInstallationSearchPath = '/opt/Epic Games';
+                } else {
+                    reject(new Error('Unreal Engine installation not found. Please set the path in settings.'));
+                    return false;
+                }
+                if(fs.existsSync(unrealEngineInstallationSearchPath)) {
+                    vscode.workspace.getConfiguration().update('uetools.unrealEngineInstallationSearchPath', unrealEngineInstallationSearchPath, vscode.ConfigurationTarget.Global);
+                } else {
+                    reject(new Error('Unreal Engine installation not found. Please set the path in settings.'));
+                    return false;
+                }
+            }
+
             const folders = fs.readdirSync(unrealEngineInstallationSearchPath);
 
             const engineFolder = folders.find(folder => folder.includes(`UE_${project.EngineAssociation}`));
             if(!engineFolder) {
                 reject(new Error(`Unreal Engine ${project.EngineAssociation} not found in ${unrealEngineInstallationSearchPath}`));
-                return;
+                return false;
             }
 
             // // ask user to select a unreal engine installation from list with tip
@@ -34,18 +58,15 @@ export const selectUnrealEngineInstallation = (): Promise<boolean> => {
             // }
 
             Context.set("unrealEngineInstallation", path.join(unrealEngineInstallationSearchPath, engineFolder));
-
-            // check operating system
-            const os = process.platform;
             
             // set UnrealBuildTool, UnrealEditor and Mono path based on Unreal version.
             // get engine version as number
             const engineVersion = parseInt(project.EngineAssociation.replace('UE_', ''));
             if(engineVersion === 4) {
                 if(os === 'win32') {
-                    Context.set("unrealBuildToolPath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine/Binaries/DotNET/UnrealBuildTool.exe'));
-                    Context.set("unrealEditorPath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine/Binaries/Win64/UE4Editor.exe'));
-                    Context.set("runtimePath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine/Binaries/ThirdParty/Mono/Win64/bin/mono.exe'));
+                    Context.set("unrealBuildToolPath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine\\Binaries\\DotNET\\UnrealBuildTool.exe'));
+                    Context.set("unrealEditorPath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine\\Binaries\\Win64\\UE4Editor.exe'));
+                    Context.set("runtimePath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine\\Binaries\\ThirdParty\\Mono\\Win64\\bin\\mono.exe'));
                 } else if(os === 'darwin') {
                     Context.set("unrealBuildToolPath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine/Binaries/DotNET/UnrealBuildTool.exe'));
                     Context.set("unrealEditorPath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine/Binaries/Mac/UE4Editor.app/Contents/MacOS/UnrealEditor'));
@@ -56,12 +77,13 @@ export const selectUnrealEngineInstallation = (): Promise<boolean> => {
                     Context.set("runtimePath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine/Binaries/ThirdParty/Mono/Linux/bin/mono'));
                 } else {
                     reject(new Error(`Unsupported operating system: ${os}`));
+                    return false;
                 }
             } else if(engineVersion === 5) {
                 if(os === 'win32') {
-                    Context.set("unrealBuildToolPath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine/Binaries/DotNET/UnrealBuildTool/UnrealBuildTool.dll'));
-                    Context.set("unrealEditorPath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine/Binaries/Win64/UnrealEditor.exe'));
-                    Context.set("runtimePath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine/Binaries/ThirdParty/Mono/Win64/bin/mono.exe'));
+                    Context.set("unrealBuildToolPath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine\\Binaries\\DotNET\\UnrealBuildTool\\UnrealBuildTool.dll'));
+                    Context.set("unrealEditorPath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine\\Binaries\\Win64\\UnrealEditor.exe'));
+                    Context.set("runtimePath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine\\Binaries\\ThirdParty\\Mono\\Win64\\bin\\mono.exe'));
                 } else if(os === 'darwin') {
                     Context.set("unrealBuildToolPath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine/Binaries/DotNET/UnrealBuildTool/UnrealBuildTool.dll'));
                     Context.set("unrealEditorPath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine/Binaries/Mac/UnrealEditor.app/Contents/MacOS/UnrealEditor'));
@@ -72,16 +94,18 @@ export const selectUnrealEngineInstallation = (): Promise<boolean> => {
                     Context.set("runtimePath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine/Binaries/ThirdParty/Mono/Linux/bin/mono'));
                 } else {
                     reject(new Error(`Unsupported operating system: ${os}`));
+                    return false;
                 }
             } else {
                 reject(new Error(`Unreal Engine ${project.EngineAssociation} not supported`));
-                return;
+                return false;
             }
 
             // Notify user the selected unreal engine installation
             vscode.window.showInformationMessage(`Unreal Engine installation ${engineFolder} selected.`);
             console.log(`Unreal Engine installation selected.`);
             resolve(true);
+            return true;
         })();
     });
 };
