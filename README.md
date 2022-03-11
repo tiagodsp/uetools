@@ -2,6 +2,8 @@
 
 Unreal Engine Tools is an extension to Visual Studio Code with some shortcuts and code editor enhancements to improve the experience of developing C++ modules for Unreal Engine projects.
 
+> Note: I am still developing, so this extension currently have support to `MacOS` and `Unreal Engine version >= 5.0`. Soon I give support to Windows and Linux environment.
+
 ## Features
 
 ### Unreal Engine Tools in-editor section:
