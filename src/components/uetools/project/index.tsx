@@ -135,8 +135,8 @@ export const Project = () =>
     return (
         <>
             <DescriptionPanel>
-                <BackgroundImage img={encodeURI(`${VSCodeWrapper.extensionUri}/res/images/uesplash.jpg`)}/>
-                <ProjectThumbnail img={encodeURI(`${VSCodeWrapper.workspaceUri}/${project?.Modules[0].Name}.png`)} width={100} height={100}/>
+                <BackgroundImage img={VSCodeWrapper.extensionUri + encodeURI(`/res/images/uesplash.jpg`)}/>
+                <ProjectThumbnail img={VSCodeWrapper.workspaceUri + encodeURI(`/${project?.Modules[0].Name}.png`)} width={100} height={100}/>
                 <ProjectDetailsPanel>
                     <ProjectTitle>{project?.Modules[0].Name}</ProjectTitle>
                     <Text>Unreal Engine {project?.EngineAssociation}</Text>

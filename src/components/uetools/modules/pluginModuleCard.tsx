@@ -44,7 +44,7 @@ export const PluginModuleCard: React.FC<PluginModuleCardProps> = (props) => {
     return (
         <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                 <ModuleCard.ModuleCard>
-                    <ModuleCard.ModuleThumbnail img={encodeURI(`${VSCodeWrapper.workspaceUri}/Plugins/${props.plugin.Modules[0].Name}/Resources/Icon128.png`)} width={100} height={100} />
+                    <ModuleCard.ModuleThumbnail img={VSCodeWrapper.workspaceUri + encodeURI(`/Plugins/${props.plugin.Modules[0].Name}/Resources/Icon128.png`)} width={100} height={100} />
                     <ModuleCard.ModuleDescription>
                         <ModuleCard.ModuleTitleWrapper>
                             <ModuleCard.ModuleTitle>{props.plugin.FriendlyName}</ModuleCard.ModuleTitle>

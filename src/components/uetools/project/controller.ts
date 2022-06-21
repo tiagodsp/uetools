@@ -43,8 +43,10 @@ export class ProjectViewController {
                 switch (message.type) {
                     case 'onReady':
                         this._webviewView!.webview.postMessage({ type: 'project', project: Context.get('project') });
+                        break;
                     case 'runCommand':
                         vscode.commands.executeCommand(message.command, message.args);
+                        break;
                 }
                 // periodicaly send project data to webview
                 setInterval(() => {
@@ -67,15 +69,15 @@ export class ProjectViewController {
         <head>
             <meta charset="UTF-8">
             <base href="${vscode.Uri.file('.').with({ scheme: 'vscode-resource' })}/">
+            <script>
+                window.acquireVsCodeApi = acquireVsCodeApi;
+                window.WORKSPACE_URI = "${this._webviewView!.webview.asWebviewUri(vscode.Uri.file(vscode.workspace.workspaceFolders![0].uri.fsPath.split(path.sep).join(path.posix.sep)))}";
+                window.EXTENSION_URI = "${this._webviewView!.webview.asWebviewUri(vscode.Uri.file(this._extensionContext.extensionPath.split(path.sep).join(path.posix.sep)))}";
+            </script>
         </head>
         <body>
             <div id="root"></div>
-            <script>
-                window.acquireVsCodeApi = acquireVsCodeApi;
-                window.WORKSPACE_URI = "${vscode.workspace.workspaceFolders![0].uri.fsPath}";
-                window.EXTENSION_URI = "${this._extensionContext.extensionPath}";
-            </script>
-            <script src="${path.join(this._extensionContext.extensionPath, 'dist', `${this._bundleName}.js`)}"></script>
+            <script src="${this._webviewView!.webview.asWebviewUri(vscode.Uri.file(path.join(this._extensionContext.extensionPath, 'dist', `${this._bundleName}.js`)))}"></script>
         </body>
         </html>
         `;
