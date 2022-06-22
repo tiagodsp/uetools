@@ -25,9 +25,20 @@ export const generateProjectFiles = (): Promise<boolean> => {
             vscode.window.showInformationMessage(`Generating project files for ${project.Modules[0].Name}`);
 
             // Create task to generate project files
+            const os = process.platform;
+            let buildOsType = "";
+            if (os === "win32") {
+                buildOsType = "Win64";
+            }
+            else if (os === "darwin") {
+                buildOsType = "Mac";
+            }
+            else if (os === "linux") {
+                buildOsType = "Linux";
+            }
             const shellCommand = new vscode.ShellExecution(
-                `${runtimePath.replace(' ', '\\ ')} ${unrealBuildToolPath.replace(' ', '\\ ')} -mode=GenerateProjectFiles -project=${path.join(projectFolder, project.Modules[0].Name).replace(' ', '\\ ')}.uproject ${project.Modules[0].Name}Editor Mac Development`,
-                { cwd: unrealEngineInstallation }
+                `"${unrealBuildToolPath}" -mode=GenerateProjectFiles -project="${path.join(projectFolder, project.Modules[0].Name)}.uproject" ${project.Modules[0].Name}Editor ${buildOsType} Development`,
+                { cwd: unrealEngineInstallation, executable: runtimePath }
             );
 
             const task = new vscode.Task(

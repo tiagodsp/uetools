@@ -32,9 +32,19 @@ export const generateCompileCommands = (): Promise<boolean> => {
             }
 
             // Create task to generate compile_commands.json
+            const os = process.platform;
+            const scapeSpace = os === "win32" ? '^ ' : '\\ ';
+            let buildOsType = "";
+            if (os === "win32") {
+                buildOsType = "Win64";
+            } else if (os === "darwin") {
+                buildOsType = "Mac";
+            } else if (os === "linux") {
+                buildOsType = "Linux";
+            }
             const shellCommand = new vscode.ShellExecution(
-                `${runtimePath.replace(' ', '\\ ')} ${unrealBuildToolPath.replace(' ', '\\ ')} -mode=GenerateClangDatabase -project=${path.join(projectFolder, project.Modules[0].Name).replace(' ', '\\ ')}.uproject ${project.Modules[0].Name}Editor Mac Development`,
-                { cwd: unrealEngineInstallation }
+                `"${unrealBuildToolPath}" -mode=GenerateClangDatabase -project=${path.join(projectFolder, project.Modules[0].Name)}.uproject ${project.Modules[0].Name}Editor ${buildOsType} Development`,
+                { cwd: unrealEngineInstallation, executable: runtimePath}
             );
 
             const task = new vscode.Task(

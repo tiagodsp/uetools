@@ -66,7 +66,7 @@ export const detectUnrealEngineInstallation = (): Promise<boolean> => {
                 if(os === 'win32') {
                     Context.set("unrealBuildToolPath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine\\Binaries\\DotNET\\UnrealBuildTool.exe'));
                     Context.set("unrealEditorPath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine\\Binaries\\Win64\\UE4Editor.exe'));
-                    Context.set("runtimePath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine\\Binaries\\ThirdParty\\Mono\\Win64\\bin\\mono.exe'));
+                    Context.set("runtimePath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine\\Binaries\\ThirdParty\\DotNet\\Windows\\dotnet.exe'));
                 } else if(os === 'darwin') {
                     Context.set("unrealBuildToolPath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine/Binaries/DotNET/UnrealBuildTool.exe'));
                     Context.set("unrealEditorPath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine/Binaries/Mac/UE4Editor.app/Contents/MacOS/UnrealEditor'));
@@ -83,7 +83,7 @@ export const detectUnrealEngineInstallation = (): Promise<boolean> => {
                 if(os === 'win32') {
                     Context.set("unrealBuildToolPath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine\\Binaries\\DotNET\\UnrealBuildTool\\UnrealBuildTool.dll'));
                     Context.set("unrealEditorPath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine\\Binaries\\Win64\\UnrealEditor.exe'));
-                    Context.set("runtimePath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine\\Binaries\\ThirdParty\\Mono\\Win64\\bin\\mono.exe'));
+                    Context.set("runtimePath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine\\Binaries\\ThirdParty\\DotNet\\Windows\\dotnet.exe'));
                 } else if(os === 'darwin') {
                     Context.set("unrealBuildToolPath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine/Binaries/DotNET/UnrealBuildTool/UnrealBuildTool.dll'));
                     Context.set("unrealEditorPath", path.join(Context.get('unrealEngineInstallation') as string, 'Engine/Binaries/Mac/UnrealEditor.app/Contents/MacOS/UnrealEditor'));

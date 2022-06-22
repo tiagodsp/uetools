@@ -20,9 +20,19 @@ export const buildProject = (): Promise<boolean> => {
             const projectFolder = Context.get("projectFolder") as string;
 
             // Create task to build project
+            const os = process.platform;
+            const scapeSpace = os === "win32" ? '` ' : '\\ '; 
+            let buildOsType = "";
+            if (os === "win32") {
+                buildOsType = "Win64";
+            } else if (os === "darwin") {
+                buildOsType = "Mac";
+            } else if (os === "linux") {
+                buildOsType = "Linux";
+            }
             const shellCommand = new vscode.ShellExecution(
-                `${runtimePath.replace(' ', '\\ ')} ${unrealBuildToolPath.replace(' ', '\\ ')} -mode=Build -ForceHotReload -project=${path.join(projectFolder, project.Modules[0].Name).replace(' ', '\\ ')}.uproject ${project.Modules[0].Name}Editor Mac Development`,
-                { cwd: unrealEngineInstallation }
+                `"${unrealBuildToolPath}" -mode=Build -ForceHotReload -project="${path.join(projectFolder, project.Modules[0].Name)}.uproject" ${project.Modules[0].Name}Editor ${buildOsType} Development`,
+                { cwd: unrealEngineInstallation, executable: runtimePath }
             );
 
             const task = new vscode.Task(
