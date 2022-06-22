@@ -39,18 +39,28 @@ export const buildModule = (args: { moduleName: string }): Promise<boolean> => {
             const os = process.platform;
             const scapeSpace = os === "win32" ? '^ ' : '\\ ';
             let buildOsType = "";
+            let shellCommand;
+            // TODO - Check for a better way to create shell commands for different OSes and avoid this big if/else statements
             if (os === "win32") {
                 buildOsType = "Win64";
+                shellCommand = new vscode.ShellExecution(
+                    `"${unrealBuildToolPath}" -mode=Build -ModuleWithSuffix=${args.moduleName},${randomIntNum} -ForceHotReload -project="${path.join(projectFolder, project.Modules[0].Name)}.uproject" ${project.Modules[0].Name}Editor ${buildOsType} Development`,
+                    // `dotnet ${path.join(unrealEngineInstallation, "Engine/Binaries/DotNET/UnrealBuildTool/UnrealBuildTool.dll").replace(' ', '\\ ')} -mode=Build -ForceHotReload -project=${path.join(projectFolder, project.Modules[0].Name).replace(' ', '\\ ')}.uproject ${args.moduleName} ${project.Modules[0].Name}Editor Mac Development`,
+                    { cwd: unrealEngineInstallation, executable: runtimePath }
+                );
             } else if (os === "darwin") {
                 buildOsType = "Mac";
+                shellCommand = new vscode.ShellExecution(
+                    `${runtimePath.split(" ").join("\\ ")} ${unrealBuildToolPath.split(" ").join("\\ ")} -mode=Build -ModuleWithSuffix=${args.moduleName},${randomIntNum} -ForceHotReload -project=${path.join(projectFolder, project.Modules[0].Name).split(" ").join("\\ ")}.uproject ${project.Modules[0].Name}Editor ${buildOsType} Development`,
+                    { cwd: unrealEngineInstallation }
+                );
             } else if (os === "linux") {
                 buildOsType = "Linux";
+                shellCommand = new vscode.ShellExecution(
+                    `${runtimePath.split(" ").join("\\ ")} ${unrealBuildToolPath.split(" ").join("\\ ")} -mode=Build -ModuleWithSuffix=${args.moduleName},${randomIntNum} -ForceHotReload -project=${path.join(projectFolder, project.Modules[0].Name).split(" ").join("\\ ")}.uproject ${project.Modules[0].Name}Editor ${buildOsType} Development`,
+                    { cwd: unrealEngineInstallation }
+                );
             }
-            const shellCommand = new vscode.ShellExecution(
-                `"${unrealBuildToolPath}" -mode=Build -ModuleWithSuffix=${args.moduleName},${randomIntNum} -ForceHotReload -project="${path.join(projectFolder, project.Modules[0].Name)}.uproject" ${project.Modules[0].Name}Editor ${buildOsType} Development`,
-                // `dotnet ${path.join(unrealEngineInstallation, "Engine/Binaries/DotNET/UnrealBuildTool/UnrealBuildTool.dll").replace(' ', '\\ ')} -mode=Build -ForceHotReload -project=${path.join(projectFolder, project.Modules[0].Name).replace(' ', '\\ ')}.uproject ${args.moduleName} ${project.Modules[0].Name}Editor Mac Development`,
-                { cwd: unrealEngineInstallation, executable: runtimePath }
-            );
 
             const task = new vscode.Task(
                 { type: 'shell' },

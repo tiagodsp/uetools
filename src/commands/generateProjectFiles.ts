@@ -27,19 +27,29 @@ export const generateProjectFiles = (): Promise<boolean> => {
             // Create task to generate project files
             const os = process.platform;
             let buildOsType = "";
+            let shellCommand;
+            // TODO - Check for a better way to create shell commands for different OSes and avoid this big if/else statements
             if (os === "win32") {
                 buildOsType = "Win64";
+                shellCommand = new vscode.ShellExecution(
+                    `"${unrealBuildToolPath}" -mode=GenerateProjectFiles -project="${path.join(projectFolder, project.Modules[0].Name)}.uproject" ${project.Modules[0].Name}Editor ${buildOsType} Development`,
+                    { cwd: unrealEngineInstallation, executable: runtimePath }
+                );
             }
             else if (os === "darwin") {
                 buildOsType = "Mac";
+                shellCommand = new vscode.ShellExecution(
+                    `${runtimePath.split(" ").join("\\ ")} ${unrealBuildToolPath.split(" ").join("\\ ")} -mode=GenerateProjectFiles -project=${path.join(projectFolder, project.Modules[0].Name).split(" ").join("\\ ")}.uproject ${project.Modules[0].Name}Editor ${buildOsType} Development`,
+                    { cwd: unrealEngineInstallation }
+                );
             }
             else if (os === "linux") {
                 buildOsType = "Linux";
+                shellCommand = new vscode.ShellExecution(
+                    `${runtimePath.split(" ").join("\\ ")} ${unrealBuildToolPath.split(" ").join("\\ ")} -mode=GenerateProjectFiles -project=${path.join(projectFolder, project.Modules[0].Name).split(" ").join("\\ ")}.uproject ${project.Modules[0].Name}Editor ${buildOsType} Development`,
+                    { cwd: unrealEngineInstallation }
+                );
             }
-            const shellCommand = new vscode.ShellExecution(
-                `"${unrealBuildToolPath}" -mode=GenerateProjectFiles -project="${path.join(projectFolder, project.Modules[0].Name)}.uproject" ${project.Modules[0].Name}Editor ${buildOsType} Development`,
-                { cwd: unrealEngineInstallation, executable: runtimePath }
-            );
 
             const task = new vscode.Task(
                 { type: 'shell' },
