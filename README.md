@@ -4,7 +4,7 @@ Unreal Engine Tools is an extension to Visual Studio Code with some shortcuts an
 
 > Note 0: Finally a initial Windows support! 🥳🎉
 
-> Note 1: I am still developing, so this extension currently only have  `MacOS` and a initial `Windows` support using `Unreal Engine version >= 5.0`. Soon I will give support fully Windows and Linux environment. Stay tuned! 👨🏻‍💻
+> Note 1: I am still developing, so this extension currently only have  `MacOS` and a initial `Windows` support using `Unreal Engine version >= 5.0`. Soon I will give fully for Windows and Linux environment. Stay tuned! 👨🏻‍💻
 
 ## Features
 
