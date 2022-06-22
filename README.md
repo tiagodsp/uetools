@@ -2,7 +2,9 @@
 
 Unreal Engine Tools is an extension to Visual Studio Code with some shortcuts and code editor enhancements to improve the experience of developing C++ modules for Unreal Engine projects.
 
-> Note: I am still developing, so this extension currently only have support to `MacOS` and `Unreal Engine version >= 5.0`. Soon I will give support to Windows and Linux environment. Stay tuned! 👨🏻‍💻
+> Note 0: Finally a initial Windows support! 🥳🎉
+
+> Note 1: I am still developing, so this extension currently only have  `MacOS` and a initial `Windows` support using `Unreal Engine version >= 5.0`. Soon I will give support fully Windows and Linux environment. Stay tuned! 👨🏻‍💻
 
 ## Features
 
@@ -28,7 +30,7 @@ Automatically invokes UnrealBuildTool in GenerateClangDatabase mode to generate 
 ## Requirements
 
 * `clangd` - For code improved completion experience (only Unreal Engine 5).
-* `MacOS` - Currently I developed the extension in a Mac OS only, but as soon I get a Windows and Linux machine I will port it to Windows and Linux developing environment.
+* `MacOS` or `Windows` - Currently I developed the extension in a MacOS and Windows only, but as soon I get a Linux machine I will port it to its developing environment.
 
 ## Extension Settings
 This extension contributes the following settings:
